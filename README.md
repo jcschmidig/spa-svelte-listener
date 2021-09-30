@@ -10,7 +10,7 @@ And it hides some nasty technical details.
 
 Goal
 ----
-This component is a simple wrapper listening to the singls-spa events of
+This component is a simple wrapper listening to the single-spa events of
 the calling module while delivering the updates to the component(s)
 in the slot.
 
