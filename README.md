@@ -23,7 +23,7 @@ import Form from './Form.svelte'        // tbd
 const modulePath = 'form'
 const update = async ([ schemaId, recId ]) => schemaId &&
     getSchema(schemaId)
-        .then( schema => ({ schema, recId , id: (recId || schemaId) }))
+        .then( schema => ({ schema, recId , id: (recId || schemaId) }) )
         .catch( _ => false )
 //
 const getSchema = async schemaId => {   // tbd
