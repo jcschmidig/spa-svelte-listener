@@ -50,7 +50,7 @@ Remarks
 - the `update` function may take one argument which is an array of the
   fragments of the current path delivered by the single-spa event.
 - the `idName` property should give the name of the object's property to
-  be used as identification. If omitted, there must be property in then
+  be used as identification. If omitted, there must be property in the
   object named `id` to be used instead.
 - the `let:prop` directive may expose the properties needed in the slot.
   They must be taken from the object returned by the update function.
