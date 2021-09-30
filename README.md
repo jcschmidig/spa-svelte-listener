@@ -18,7 +18,7 @@ Usage in svelte
 ---------------
 ```
 <script>
-import Router from './Router.svelte'    // this component
+import Listener from './SpaListener.svelte'
 import Form from './Form.svelte'        // tbd
 const modulePath = 'form'
 const update = async ([ schemaId, recId ]) => schemaId &&
@@ -31,13 +31,13 @@ const getSchema = async schemaId => {   // tbd
 }
 </script>
 
-<Router
+<Listener
     {modulePath}
     {update}
     let:prop={{schema, recId}}
 >
     <Form {schema} {recId} />
-</Router>
+</Listener>
 ```
 
 Remarks
