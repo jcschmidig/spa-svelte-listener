@@ -1,43 +1,33 @@
+<!-- https://single-spa.js.org/docs/api/#routing-event -->
+<svelte:window on:single-spa:routing-event={onChangedRoute}/>
+
 {#if props}
-    {#each props as prop (prop[idName])}
-    <slot {prop} />
-    {/each}
+    {#await props}
+        <p>... Loading...</p>
+    {:then prop}
+        <slot {prop} />
+    {:catch err}
+        <p>... {err} ...</p>
+    {/await}
 {:else}
-    <p>... Loading ...</p>
+    <p>... Initializing ...</p>
 {/if}
 
 <script>
-import { onMount } from 'svelte'
-
-export let modulePath, update, idName='id'
+export let modulePath, update
 let props
 
-// see https://single-spa.js.org/docs/api/#routing-event
-const SPA_EVENT = 'single-spa:routing-event'
+const onChangedRoute = ({ currentTarget }) => {
+    if (!(update && modulePath)) return
 
-const onChangedRoute = async ({ currentTarget }) => {
     // path: /<module>[/<frag1>[/<frag2>[/...]]]
     const [ , module, ...fragments ] =
         currentTarget.location.pathname.split('/')
 
-    // Ignore events of other modules
+    // ignore events of other modules
     if (modulePath !== module) return
 
     // deliver the update to the slot via props
-    try {
-        // must be awaited since we don't know if it's sync or async
-        const newProps = await update(fragments)
-        // the directive {#each ...} needs an array
-        if (newProps) props = [ newProps ]
-    } catch {
-        props = false
-    }
+    props = update(...fragments)
 }
-
-modulePath && update && idName &&
-    onMount( () => (
-        window.addEventListener(SPA_EVENT, onChangedRoute),
-        // to be called on unmounting
-        () => window.removeEventListener(SPA_EVENT, onChangedRoute)
-    ))
 </script>
